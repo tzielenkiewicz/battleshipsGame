@@ -16,22 +16,22 @@ public class Dashboard {
     }
 
     public static char[][] createEmptyDashboard(int amount) {
-        char dbrd[][] = new char[amount][amount];
-        for (int row = 0; row < 10; row++) {
-            for (int col = 0; col < 10; col++) {
-                dbrd[row][col] = ' ';
-            }
-        }
-        return dbrd;
+        char[][] dbrdSpace = new char[amount][amount];
+        pushCharIntoDashboard(dbrdSpace, ' ');
+        return dbrdSpace;
     }
 
     public static char[][] createDashboardOfA(int amount) {
-        char dbrdA[][] = new char[amount][amount];
+        char[][] dbrdA = new char[amount][amount];
+        pushCharIntoDashboard(dbrdA, 'A');
+        return dbrdA;
+    }
+
+    private static void pushCharIntoDashboard(char[][] dbrd, char c) {
         for (int row = 0; row < 10; row++) {
             for (int col = 0; col < 10; col++) {
-                dbrdA[row][col] = 'A';
+                dbrd[row][col] = c;
             }
         }
-        return dbrdA;
     }
 }
