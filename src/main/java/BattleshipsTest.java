@@ -43,4 +43,9 @@ public class BattleshipsTest {
             }
         }
     }
+    @Test
+    public void canCreateBattleship() {
+        char[][] battleshipDash = Dashboard.createBattleshipInChosenGrid(4, 5);
+        for (int i=0; i<5; i++) assertEquals(battleshipDash[4][5+i], 'X');
+    }
 }

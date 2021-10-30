@@ -27,6 +27,12 @@ public class Dashboard {
         return dbrdA;
     }
 
+    public static char[][] createBattleshipInChosenGrid(int row, int column) {
+        char[][] battleship = createDashboard_10Size();
+        for (int i=0; i<5; i++) battleship[row][column+i] = 'X';
+        return battleship;
+    }
+
     public static char[][] createDashboardOfCharWith_XSize(int amount, char c) {
         char[][] dbrdXB = new char[amount][amount];
         pushCharIntoDashboard(dbrdXB, c);
