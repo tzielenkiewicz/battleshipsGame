@@ -27,6 +27,12 @@ public class Dashboard {
         return dbrdA;
     }
 
+    public static char[][] createDashboardOfCharWith_XSize(int amount, char c) {
+        char[][] dbrdXB = new char[amount][amount];
+        pushCharIntoDashboard(dbrdXB, c);
+        return dbrdXB;
+    }
+
     private static void pushCharIntoDashboard(char[][] dbrd, char c) {
         for (int row = 0; row < 10; row++) {
             for (int col = 0; col < 10; col++) {
@@ -34,4 +40,6 @@ public class Dashboard {
             }
         }
     }
+
+
 }

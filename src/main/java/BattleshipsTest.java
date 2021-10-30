@@ -18,18 +18,28 @@ public class BattleshipsTest {
     @Test
     public void canCreateEmptyDashboard() {
         char[][] empty = Dashboard.createEmptyDashboard(10);
-        for (int row = 0; row <10; row ++) {
-            for (int col = 0; col <10; col ++) {
+        for (int row = 0; row <empty.length; row ++) {
+            for (int col = 0; col < empty.length; col ++) {
                 assertEquals(empty[row][col], ' ');
             }
         }
     }
    @Test
     public void canCreateDashboardOfA() {
-        char[][] tenA = Dashboard.createDashboardOfA(10);
-        for (int row = 0; row <10; row ++) {
-            for (int col = 0; col <10; col ++) {
-                assertEquals(tenA[row][col], 'A');
+        char[][] dbrdA = Dashboard.createDashboardOfA(10);
+        for (int row = 0; row < dbrdA.length; row ++) {
+            for (int col = 0; col < dbrdA.length; col ++) {
+                assertEquals(dbrdA[row][col], 'A');
+            }
+        }
+    }
+
+    @Test
+    public void canCreateDashboardOfChosenCharWith_XSize() {
+        char[][] X_ChosenChar = Dashboard.createDashboardOfCharWith_XSize(10, 'B');
+        for (int row = 0; row < X_ChosenChar.length; row++) {
+            for (int col = 0; col < X_ChosenChar.length; col++) {
+                assertEquals(X_ChosenChar[row][col], 'B');
             }
         }
     }
