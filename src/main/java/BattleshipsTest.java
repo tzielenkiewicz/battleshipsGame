@@ -1,8 +1,12 @@
 import org.hemickman.Dashboard;
 import org.testng.annotations.Test;
+
+import java.util.Random;
+
 import static org.junit.Assert.*;
 
 public class BattleshipsTest {
+    Random generator = new Random();
     @Test
     public void canCreateDashboardWith_10Size() {
         char[][] ten = Dashboard.createDashboard_10Size();
@@ -46,6 +50,15 @@ public class BattleshipsTest {
     @Test
     public void canCreateBattleship() {
         char[][] battleshipDash = Dashboard.createBattleshipInChosenGrid(4, 5);
-        for (int i=0; i<5; i++) assertEquals(battleshipDash[4][5+i], 'X');
+        for (int i=0; i<5; i++) assertEquals(battleshipDash[3][4+i], 'X');
     }
+    @Test
+    public void canPushXIntoRandomGrid() {
+        int number1 = Math.round(generator.nextInt(10));
+        int number2 = Math.round(generator.nextInt(10));
+
+        char[][] randomGridDash = Dashboard.createRandomGridDashboard(number1, number2);
+        assertEquals(randomGridDash[number1][number2], 'X');
+    }
+
 }
