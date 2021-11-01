@@ -70,7 +70,7 @@ public class Dashboard {
         return chosenGrid;
     }
 
-    public static char[][] createRandomGridBattleshipDashboard(int number1, int number2) {
+    /*public static char[][] createRandomGridBattleshipDashboard(int number1, int number2) {
         Random generator = new Random();
         char[][] randomGridBattleshipDash = createEmptyDashboard(10);
         for (int i=0; i<5; i++) {
@@ -94,5 +94,5 @@ public class Dashboard {
             } else randomGridBattleshipDash[number1 + i][number2]= 'X';
         }
         return randomGridBattleshipDash;
-    }
+    }*/
 }
