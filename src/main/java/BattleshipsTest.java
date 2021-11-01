@@ -136,45 +136,32 @@ public class BattleshipsTest {
     public void canInputHorizontalDestroyerIntoEmptyDashboard() {
         Destroyer HMSDstr = new Destroyer(0, 0, "horizontal");
         char[][] dsbrd = Dashboard.createEmptyDashboard();
-        for (int i = 0; i < 4; i++) dsbrd[0][0+i] = 'X';
-        assertEquals(dsbrd[0][0], 'X');
-        assertEquals(dsbrd[0][1], 'X');
-        assertEquals(dsbrd[0][2], 'X');
-        assertEquals(dsbrd[0][3], 'X');
+        Destroyer.inputDestroyerIntoDashboard(HMSDstr, dsbrd);
+        for (int i = 0; i < 4; i++) assertEquals(dsbrd[0][0+i], 'X');
     }
 
     @Test
     public void canInputVerticalDestroyerIntoEmptyDashboard() {
-        Destroyer HMSDstr = new Destroyer(0, 0, "vertical");
+        Destroyer HMSDstr = new Destroyer(7, 2, "vertical");
         char[][] dsbrd = Dashboard.createEmptyDashboard();
-        for (int i = 0; i < 4; i++) dsbrd[0+i][0] = 'X';
-        assertEquals(dsbrd[0][0], 'X');
-        assertEquals(dsbrd[1][0], 'X');
-        assertEquals(dsbrd[2][0], 'X');
-        assertEquals(dsbrd[3][0], 'X');
+        Destroyer.inputDestroyerIntoDashboard(HMSDstr, dsbrd);
+        for (int i = 0; i < 4; i++) assertEquals(dsbrd[7-i][2], 'X');
     }
+
     @Test
     public void canInputHorizontalBattleshipIntoEmptyDashboard() {
-        Battleship HMSBtls = new Battleship(0, 0, "horizontal");
+        Battleship HMSBtls = new Battleship(8, 8, "horizontal");
         char[][] dsbrd = Dashboard.createEmptyDashboard();
-        for (int i = 0; i < 5; i++) dsbrd[0][0+i] = 'X';
-        assertEquals(dsbrd[0][0], 'X');
-        assertEquals(dsbrd[0][1], 'X');
-        assertEquals(dsbrd[0][2], 'X');
-        assertEquals(dsbrd[0][3], 'X');
-        assertEquals(dsbrd[0][4], 'X');
+        Battleship.inputBattleshipIntoDashboard(HMSBtls, dsbrd);
+        for (int i = 0; i < 5; i++) assertEquals(dsbrd[8][8-i], 'X');
     }
 
     @Test
     public void canInputVerticalBattleshipIntoEmptyDashboard() {
-        Destroyer HMSBtls = new Destroyer(0, 0, "vertical");
+        Battleship HMSBtls = new Battleship(5, 5, "vertical");
         char[][] dsbrd = Dashboard.createEmptyDashboard();
-        for (int i = 0; i < 5; i++) dsbrd[0+i][0] = 'X';
-        assertEquals(dsbrd[0][0], 'X');
-        assertEquals(dsbrd[1][0], 'X');
-        assertEquals(dsbrd[2][0], 'X');
-        assertEquals(dsbrd[3][0], 'X');
-        assertEquals(dsbrd[4][0], 'X');
+        Battleship.inputBattleshipIntoDashboard(HMSBtls, dsbrd);
+        for (int i = 0; i < 5; i++) assertEquals(dsbrd[5+i][5], 'X');
     }
 
 }

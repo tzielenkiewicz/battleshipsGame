@@ -17,6 +17,32 @@ public class Destroyer {
         this.position = position;
 
     }
+
+    public static void inputDestroyerIntoDashboard(Destroyer dstr, char[][] dsbrd) {
+        for (int i = 0; i < 4; i++) {
+            if (dstr.getRow() < 3 && dstr.getColumn() < 3 && dstr.position.equals("vertical")) {
+                dsbrd[dstr.getRow() + i][dstr.getColumn()]= 'X';
+            } else if (dstr.getRow() < 3 && dstr.getColumn() < 3 && dstr.position.equals("horizontal")) {
+                dsbrd[dstr.getRow()][dstr.getColumn() + i]= 'X';
+            } else if (dstr.getRow() > 6 && dstr.getColumn() < 3 && dstr.position.equals("vertical")) {
+                dsbrd[dstr.getRow() - i][dstr.getColumn()]= 'X';
+            } else if (dstr.getRow() > 6 && dstr.getColumn() < 3 && dstr.position.equals("horizontal")) {
+                dsbrd[dstr.getRow()][dstr.getColumn() + i]= 'X';
+            } else if (dstr.getRow() < 3 && dstr.getColumn() > 6 && dstr.position.equals("vertical")) {
+                dsbrd[dstr.getRow() + i][dstr.getColumn()]= 'X';
+            } else if (dstr.getRow() < 3 && dstr.getColumn() > 6 && dstr.position.equals("horizontal")) {
+                dsbrd[dstr.getRow()][dstr.getColumn() - i]= 'X';
+            } else if (dstr.getRow() > 6 && dstr.getColumn() > 6 && dstr.position.equals("vertical")) {
+                dsbrd[dstr.getRow() - i][dstr.getColumn()]= 'X';
+            } else if (dstr.getRow() > 6 && dstr.getColumn() > 6 && dstr.position.equals("horizontal")) {
+                dsbrd[dstr.getRow()][dstr.getColumn() - i]= 'X';
+            } else {
+                if (dstr.position.equals("vertical")) dsbrd[dstr.getRow() + i][dstr.getColumn()]= 'X';
+                else dsbrd[dstr.getRow()][dstr.getColumn()+i]= 'X';
+            }
+        }
+    }
+
     public int getRow() {
         return row;
     }
