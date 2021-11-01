@@ -1,4 +1,6 @@
+import org.hemickman.Battleship;
 import org.hemickman.Dashboard;
+import org.hemickman.Destroyer;
 import org.testng.annotations.Test;
 
 import java.util.Random;
@@ -59,6 +61,56 @@ public class BattleshipsTest {
 
         char[][] randomGridDash = Dashboard.createRandomGridDashboard(number1, number2);
         assertEquals(randomGridDash[number1][number2], 'X');
+    }
+
+    @Test
+    public void canCreateVerticalDestroyer() {
+        Destroyer HMSBtls = new Destroyer (0, 0, "vertical");
+        assertEquals(HMSBtls.row, 0);
+        assertEquals(HMSBtls.column, 0);
+        assertEquals(HMSBtls.position, "vertical");
+        assertEquals(HMSBtls.status, "sailing");
+    }
+
+    @Test
+    public void canCreateHorizontalDestroyer() {
+        Destroyer HMSDstr = new Destroyer (0, 0, "horizontal");
+        assertEquals(HMSDstr.row, 0);
+        assertEquals(HMSDstr.column, 0);
+        assertEquals(HMSDstr.position, "horizontal");
+        assertEquals(HMSDstr.status, "sailing");
+    }
+
+    @Test
+    public void canCreateVerticalBattleship() {
+        Battleship HMSBtls = new Battleship(4, 5, "vertical");
+        assertEquals(HMSBtls.row, 4);
+        assertEquals(HMSBtls.column, 5);
+        assertEquals(HMSBtls.position, "vertical");
+        assertEquals(HMSBtls.status, "sailing");
+    }
+
+    @Test
+    public void canChangeDestroyerStatus() {
+        Destroyer HMSDstr = new Destroyer(0, 0, "vertical");
+        assertEquals(HMSDstr.getStatus(), "sailing");
+        assertTrue(HMSDstr.isGun());
+        HMSDstr.gun = false;
+        HMSDstr.chimney = false;
+        HMSDstr.radar = false;
+        HMSDstr.bridge = false;
+        HMSDstr.changeStatus();
+        assertEquals(HMSDstr.getStatus(), "sunk");
+    }
+
+    @Test
+    public void canChangeBattleshipStatus() {
+        Battleship HMSBtls = new Battleship(0,0, "horizontal");
+        assertEquals(HMSBtls.status, "sailing");
+        assertTrue(HMSBtls.isRocketLauncher());
+        HMSBtls.rocketLauncher = false;
+        HMSBtls.changeStatus();
+        assertEquals(HMSBtls.status, "hit");
     }
 
 }
