@@ -5,11 +5,11 @@ import java.util.Random;
 import static org.junit.Assert.assertEquals;
 
 public class Dashboard {
-    int amount;
+    //int amount;
 
-    Dashboard(int amount) {
+    /*Dashboard(int amount) {
         this.amount = amount;
-    }
+    }*/
     public static char[][] createDashboard_10Size() {
         return new char[10][10];
     }
@@ -18,8 +18,8 @@ public class Dashboard {
     }
 
 
-    public static char[][] createEmptyDashboard(int amount) {
-        char[][] dbrdSpace = new char[amount][amount];
+    public static char[][] createEmptyDashboard() {
+        char[][] dbrdSpace = new char[10][10];
         pushCharIntoDashboard(dbrdSpace, ' ');
         return dbrdSpace;
     }
@@ -31,7 +31,7 @@ public class Dashboard {
     }
 
     public static char[][] createBattleshipInChosenGrid(int row, int column) {
-        char[][] battleship = createEmptyDashboard(10);
+        char[][] battleship = createEmptyDashboard();
         for (int i=0; i<5; i++) battleship[row-1][column-1+i] = 'X';
         return battleship;
     }
@@ -65,7 +65,7 @@ public class Dashboard {
     }
 
     public static char[][] createRandomGridDashboard(int number1, int number2) {
-        char[][] chosenGrid = createEmptyDashboard(10);
+        char[][] chosenGrid = createEmptyDashboard();
         chosenGrid[number1][number2]='X';
         return chosenGrid;
     }

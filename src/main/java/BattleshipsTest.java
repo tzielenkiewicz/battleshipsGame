@@ -9,6 +9,9 @@ import static org.junit.Assert.*;
 
 public class BattleshipsTest {
     Random generator = new Random();
+    int number1 = Math.round(generator.nextInt(10));
+    int number2 = Math.round(generator.nextInt(10));
+
     @Test
     public void canCreateDashboardWith_10Size() {
         char[][] ten = Dashboard.createDashboard_10Size();
@@ -23,7 +26,7 @@ public class BattleshipsTest {
 
     @Test
     public void canCreateEmptyDashboard() {
-        char[][] empty = Dashboard.createEmptyDashboard(10);
+        char[][] empty = Dashboard.createEmptyDashboard();
         for (int row = 0; row <empty.length; row ++) {
             for (int col = 0; col < empty.length; col ++) {
                 assertEquals(empty[row][col], ' ');
@@ -56,8 +59,6 @@ public class BattleshipsTest {
     }
     @Test
     public void canPushXIntoRandomGrid() {
-        int number1 = Math.round(generator.nextInt(10));
-        int number2 = Math.round(generator.nextInt(10));
 
         char[][] randomGridDash = Dashboard.createRandomGridDashboard(number1, number2);
         assertEquals(randomGridDash[number1][number2], 'X');
@@ -111,6 +112,69 @@ public class BattleshipsTest {
         HMSBtls.rocketLauncher = false;
         HMSBtls.changeStatus();
         assertEquals(HMSBtls.status, "hit");
+    }
+
+    @Test
+    public void canCreateBattleshipInRandomPosition() {
+        Battleship HMSBtls = new Battleship(number1, number2, "vertical");
+        assertEquals(HMSBtls.row, number1);
+        assertEquals(HMSBtls.column, number2);
+        assertEquals(HMSBtls.position, "vertical");
+        assertEquals(HMSBtls.status, "sailing");
+    }
+
+    @Test
+    public void canCreateDestroyerInRandomPosition() {
+        Destroyer HMSDstr = new Destroyer (number1, number2, "horizontal");
+        assertEquals(HMSDstr.row, number1);
+        assertEquals(HMSDstr.column, number2);
+        assertEquals(HMSDstr.position, "horizontal");
+        assertEquals(HMSDstr.status, "sailing");
+    }
+
+    @Test
+    public void canInputHorizontalDestroyerIntoEmptyDashboard() {
+        Destroyer HMSDstr = new Destroyer(0, 0, "horizontal");
+        char[][] dsbrd = Dashboard.createEmptyDashboard();
+        for (int i = 0; i < 4; i++) dsbrd[0][0+i] = 'X';
+        assertEquals(dsbrd[0][0], 'X');
+        assertEquals(dsbrd[0][1], 'X');
+        assertEquals(dsbrd[0][2], 'X');
+        assertEquals(dsbrd[0][3], 'X');
+    }
+
+    @Test
+    public void canInputVerticalDestroyerIntoEmptyDashboard() {
+        Destroyer HMSDstr = new Destroyer(0, 0, "vertical");
+        char[][] dsbrd = Dashboard.createEmptyDashboard();
+        for (int i = 0; i < 4; i++) dsbrd[0+i][0] = 'X';
+        assertEquals(dsbrd[0][0], 'X');
+        assertEquals(dsbrd[1][0], 'X');
+        assertEquals(dsbrd[2][0], 'X');
+        assertEquals(dsbrd[3][0], 'X');
+    }
+    @Test
+    public void canInputHorizontalBattleshipIntoEmptyDashboard() {
+        Battleship HMSBtls = new Battleship(0, 0, "horizontal");
+        char[][] dsbrd = Dashboard.createEmptyDashboard();
+        for (int i = 0; i < 5; i++) dsbrd[0][0+i] = 'X';
+        assertEquals(dsbrd[0][0], 'X');
+        assertEquals(dsbrd[0][1], 'X');
+        assertEquals(dsbrd[0][2], 'X');
+        assertEquals(dsbrd[0][3], 'X');
+        assertEquals(dsbrd[0][4], 'X');
+    }
+
+    @Test
+    public void canInputVerticalBattleshipIntoEmptyDashboard() {
+        Destroyer HMSBtls = new Destroyer(0, 0, "vertical");
+        char[][] dsbrd = Dashboard.createEmptyDashboard();
+        for (int i = 0; i < 5; i++) dsbrd[0+i][0] = 'X';
+        assertEquals(dsbrd[0][0], 'X');
+        assertEquals(dsbrd[1][0], 'X');
+        assertEquals(dsbrd[2][0], 'X');
+        assertEquals(dsbrd[3][0], 'X');
+        assertEquals(dsbrd[4][0], 'X');
     }
 
 }
