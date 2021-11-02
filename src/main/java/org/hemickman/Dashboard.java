@@ -70,29 +70,11 @@ public class Dashboard {
         return chosenGrid;
     }
 
-    /*public static char[][] createRandomGridBattleshipDashboard(int number1, int number2) {
+    public static String generatePosition() {
         Random generator = new Random();
-        char[][] randomGridBattleshipDash = createEmptyDashboard(10);
-        for (int i=0; i<5; i++) {
-
-            if (number1 < 4 && number2 < 4 && generator.nextBoolean()) {
-                randomGridBattleshipDash[number1 + i][number2]= 'X';
-            } else if (number1 < 4 && number2 < 4 && !generator.nextBoolean()) {
-                randomGridBattleshipDash[number1][number2 + i]= 'X';
-            } else if (number1 > 5 && number2 < 4 && generator.nextBoolean()) {
-                randomGridBattleshipDash[number1 - i][number2]= 'X';
-            } else if (number1 > 5 && number2 < 4 && !generator.nextBoolean()) {
-                randomGridBattleshipDash[number1][number2 + i]= 'X';
-            } else if (number1 < 4 && number2 > 5 && generator.nextBoolean()) {
-                randomGridBattleshipDash[number1 + i][number2]= 'X';
-            } else if (number1 < 4 && number2 > 5 && !generator.nextBoolean()) {
-                randomGridBattleshipDash[number1][number2 - i]= 'X';
-            } else if (number1 > 5 && number2 > 5 && generator.nextBoolean()) {
-                randomGridBattleshipDash[number1 - i][number2]= 'X';
-            } else if (number1 > 5 && number2 > 5 && !generator.nextBoolean()) {
-                randomGridBattleshipDash[number1][number2 - i]= 'X';
-            } else randomGridBattleshipDash[number1 + i][number2]= 'X';
-        }
-        return randomGridBattleshipDash;
-    }*/
+        String position;
+        if (generator.nextBoolean()) position = "vertical";
+        else position = "horizontal";
+        return position;
+    }
 }

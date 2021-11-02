@@ -43,6 +43,34 @@ public class Destroyer {
         }
     }
 
+    public static int[][] defineDestroyerLocation(int n1, int n2, String position, char[][] dsbrd) {
+        boolean collision;
+        do {
+            collision = false;
+            for(int j = -1; j<5; j++) {
+                for (int i = -1; i < 2; i++) {
+                    try {
+                        if (dsbrd[n1 + j][n2 + i] == 'X') {
+                            if (n1 < 7) {
+                                n1++;
+                            } else {
+                                n1 = 0;
+                                n2++;
+                            }
+                            collision = true;
+                            break;
+                        }
+                    } catch (ArrayIndexOutOfBoundsException ignored){}
+                }
+            }
+        } while (collision);
+        int[][] dstrLoc;
+        if (position.equals("vertical")) dstrLoc =
+                new int[][]{{n1, n2}, {n1 + 1, n2}, {n1 + 2, n2}, {n1 + 3, n2}};
+        else dstrLoc = new int[][] {{n1, n2}, {n1, n2+1}, {n1, n2+2}, {n1, n2+3}};
+        return dstrLoc;
+    }
+
     public int getRow() {
         return row;
     }
