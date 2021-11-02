@@ -47,22 +47,45 @@ public class Destroyer {
         boolean collision;
         do {
             collision = false;
-            for(int j = -1; j<5; j++) {
-                for (int i = -1; i < 2; i++) {
-                    try {
-                        if (dsbrd[n1 + j][n2 + i] == 'X') {
-                            if (n1 < 7) {
-                                n1++;
-                            } else {
-                                n1 = 0;
-                                n2++;
+            if (position.equals("vertical")) {
+                for (int j = -1; j < 5; j++) {
+                    for (int i = -1; i < 2; i++) {
+                        try {
+                            if (dsbrd[n1 + j][n2 + i] == 'X') {
+                                if (n1 < 7) {
+                                    n1++;
+                                } else {
+                                    n1 = 0;
+                                    n2++;
+                                }
+                                collision = true;
+                                break;
                             }
-                            collision = true;
-                            break;
+                        } catch (ArrayIndexOutOfBoundsException ignored) {
                         }
-                    } catch (ArrayIndexOutOfBoundsException ignored){}
+                    }
                 }
             }
+            else {
+                for (int j = -1; j < 5; j++) {
+                    for (int i = -1; i < 2; i++) {
+                        try {
+                            if (dsbrd[n1 + i][n2 + j] == 'X') {
+                                if (n1 < 9) {
+                                    n1++;
+                                } else {
+                                    n1 = 0;
+                                    n2++;
+                                }
+                                collision = true;
+                                break;
+                            }
+                        } catch (ArrayIndexOutOfBoundsException ignored) {
+                        }
+                    }
+                }
+            }
+
         } while (collision);
         int[][] dstrLoc;
         if (position.equals("vertical")) dstrLoc =

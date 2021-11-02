@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
 public class BattleshipsTest {
     Random generator = new Random();
     int number1 = Math.round(generator.nextInt(9));
-    int number2 = Math.round(generator.nextInt(9));
+    int number2 = Math.round(generator.nextInt(5));
 
     @Test
     public void canCreateDashboardWith_10Size() {
@@ -150,18 +150,18 @@ public class BattleshipsTest {
 
     @Test
     public void canInputHorizontalBattleshipIntoEmptyDashboard() {
-        Battleship HMSBtls = new Battleship(8, 8, "horizontal");
+        Battleship HMSBtls = new Battleship(8, 4, "horizontal");
         char[][] dsbrd = Dashboard.createEmptyDashboard();
         Battleship.inputBattleshipIntoDashboard(HMSBtls, dsbrd);
-        for (int i = 0; i < 5; i++) assertEquals(dsbrd[8][8-i], 'X');
+        for (int i = 0; i < 5; i++) assertEquals(dsbrd[8][4+i], 'X');
     }
 
     @Test
     public void canInputVerticalBattleshipIntoEmptyDashboard() {
-        Battleship HMSBtls = new Battleship(5, 5, "vertical");
+        Battleship HMSBtls = new Battleship(3, 4, "vertical");
         char[][] dsbrd = Dashboard.createEmptyDashboard();
         Battleship.inputBattleshipIntoDashboard(HMSBtls, dsbrd);
-        for (int i = 0; i < 5; i++) assertEquals(dsbrd[5-i][5], 'X');
+        for (int i = 0; i < 5; i++) assertEquals(dsbrd[3+i][4], 'X');
     }
 
     @Test
@@ -179,44 +179,32 @@ public class BattleshipsTest {
     }
 
     @Test
-    public void canCreateBattleshipRandomPositionAndLocation() {
+    public void canInputBattleshipRandomPositionAndLocation() {
         String position = Dashboard.generatePosition();
-        Battleship btls = new Battleship(number1, number2, position);
+        Battleship btls = null;
+        switch (position) {
+            case "horizontal" -> btls = new Battleship(number1, number2, position);
+            case "vertical" -> btls = new Battleship(number2, number1, position);
+        }
+
         char[][] dsbrd = Dashboard.createEmptyDashboard();
         Battleship.inputBattleshipIntoDashboard(btls, dsbrd);
         for (int i = 0; i<5; i++) {
-            if (btls.getRow() <= 4 && btls.getColumn() <= 4 && btls.position.equals("vertical")) {
-                assertEquals(dsbrd[btls.getRow() + i][btls.getColumn()], 'X');
-            } else if (btls.getRow() <= 4 && btls.getColumn() <= 4 && btls.position.equals("horizontal")) {
-                assertEquals(dsbrd[btls.getRow()][btls.getColumn() + i], 'X');
-            } else if (btls.getRow() >= 5 && btls.getColumn() <= 4 && btls.position.equals("vertical")) {
-                assertEquals(dsbrd[btls.getRow() - i][btls.getColumn()], 'X');
-            } else if (btls.getRow() >= 5 && btls.getColumn() <= 4 && btls.position.equals("horizontal")) {
-                assertEquals(dsbrd[btls.getRow()][btls.getColumn() + i], 'X');
-            } else if (btls.getRow() <= 4 && btls.getColumn() >= 5 && btls.position.equals("vertical")) {
-                assertEquals(dsbrd[btls.getRow() + i][btls.getColumn()], 'X');
-            } else if (btls.getRow() <= 4 && btls.getColumn() >= 5 && btls.position.equals("horizontal")) {
-                assertEquals(dsbrd[btls.getRow()][btls.getColumn() - i], 'X');
-            } else if (btls.getRow() >= 5 && btls.getColumn() >= 5 && btls.position.equals("vertical")) {
-                assertEquals(dsbrd[btls.getRow() - i][btls.getColumn()], 'X');
-            } else if (btls.getRow() >= 5 && btls.getColumn() >= 5 && btls.position.equals("horizontal")) {
-                assertEquals(dsbrd[btls.getRow()][btls.getColumn() - i], 'X');
-            }
+            if (btls.getPosition().equals("vertical")) assertEquals(dsbrd[number2+i][number1], 'X');
+            else assertEquals(dsbrd[number1][number2+i], 'X');
         }
     }
 
     @Test
     public void canDefineDestroyerLocation() {
-        int n1 = 0;
-        int n2 = 0;
-        Battleship btls = new Battleship(0, 0, "horizontal");
+        Battleship btls = new Battleship(0, 4, "horizontal");
         char[][] dsbrd = Dashboard.createEmptyDashboard();
         Battleship.inputBattleshipIntoDashboard(btls, dsbrd);
-        int[][] destroyerLocation = Destroyer.defineDestroyerLocation(n1, n2, "vertical", dsbrd);
+        int[][] destroyerLocation = Destroyer.defineDestroyerLocation(0, 0, "horizontal", dsbrd);
         for (int i = -1; i < 2; i++) {
             for (int j = -1; j < 5; j++) {
                 try {
-                    assertEquals(dsbrd[destroyerLocation[0][0] + i][destroyerLocation[0][1] + j], ' ');
+                    assertEquals(dsbrd[destroyerLocation[0][0] + j][destroyerLocation[0][1] + i], ' ');
                 } catch (ArrayIndexOutOfBoundsException ignored){}
             }
         }
