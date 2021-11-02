@@ -13,8 +13,8 @@ public class Main {
         Battleship btls = new Battleship(0, 0, "horizontal");
         char[][] dsbrd = Dashboard.createEmptyDashboard();
         Battleship.inputBattleshipIntoDashboard(btls, dsbrd);
-        int[][] destroyerLocation = Destroyer.defineDestroyerLocation(1, 1, "vertical", dsbrd);
-        System.out.println(destroyerLocation[0][0] + " " + destroyerLocation[0][1]);
+        //int[][] destroyerLocation = Destroyer.defineDestroyerLocation(1, 1, "vertical", dsbrd);
+        //System.out.println(destroyerLocation[0][0] + " " + destroyerLocation[0][1]);
     }
 
 

@@ -20,43 +20,25 @@ public class Destroyer {
 
     public static void inputDestroyerIntoDashboard(Destroyer dstr, char[][] dsbrd) {
         for (int i = 0; i < 4; i++) {
-            if (dstr.getRow() < 3 && dstr.getColumn() < 3 && dstr.position.equals("vertical")) {
-                dsbrd[dstr.getRow() + i][dstr.getColumn()]= 'X';
-            } else if (dstr.getRow() < 3 && dstr.getColumn() < 3 && dstr.position.equals("horizontal")) {
-                dsbrd[dstr.getRow()][dstr.getColumn() + i]= 'X';
-            } else if (dstr.getRow() > 6 && dstr.getColumn() < 3 && dstr.position.equals("vertical")) {
-                dsbrd[dstr.getRow() - i][dstr.getColumn()]= 'X';
-            } else if (dstr.getRow() > 6 && dstr.getColumn() < 3 && dstr.position.equals("horizontal")) {
-                dsbrd[dstr.getRow()][dstr.getColumn() + i]= 'X';
-            } else if (dstr.getRow() < 3 && dstr.getColumn() > 6 && dstr.position.equals("vertical")) {
-                dsbrd[dstr.getRow() + i][dstr.getColumn()]= 'X';
-            } else if (dstr.getRow() < 3 && dstr.getColumn() > 6 && dstr.position.equals("horizontal")) {
-                dsbrd[dstr.getRow()][dstr.getColumn() - i]= 'X';
-            } else if (dstr.getRow() > 6 && dstr.getColumn() > 6 && dstr.position.equals("vertical")) {
-                dsbrd[dstr.getRow() - i][dstr.getColumn()]= 'X';
-            } else if (dstr.getRow() > 6 && dstr.getColumn() > 6 && dstr.position.equals("horizontal")) {
-                dsbrd[dstr.getRow()][dstr.getColumn() - i]= 'X';
-            } else {
-                if (dstr.position.equals("vertical")) dsbrd[dstr.getRow() + i][dstr.getColumn()]= 'X';
-                else dsbrd[dstr.getRow()][dstr.getColumn()+i]= 'X';
-            }
+            if (dstr.getPosition().equals("vertical")) dsbrd[dstr.getRow()+i][dstr.getColumn()]= 'X';
+            else dsbrd[dstr.getRow()][dstr.getColumn()+i]= 'X';
         }
     }
 
-    public static int[][] defineDestroyerLocation(int n1, int n2, String position, char[][] dsbrd) {
+    public static int[][] defineDestroyerLocation(Destroyer dstr, char[][] dsbrd) {
         boolean collision;
         do {
             collision = false;
-            if (position.equals("vertical")) {
+            if (dstr.getPosition().equals("vertical")) {
                 for (int j = -1; j < 5; j++) {
                     for (int i = -1; i < 2; i++) {
                         try {
-                            if (dsbrd[n1 + j][n2 + i] == 'X') {
-                                if (n1 < 7) {
-                                    n1++;
+                            if (dsbrd[dstr.getRow() + j][dstr.getColumn() + i] == 'X') {
+                                if (dstr.getRow() < 7) {
+                                    dstr.row++;
                                 } else {
-                                    n1 = 0;
-                                    n2++;
+                                    dstr.row = 0;
+                                    dstr.column++;
                                 }
                                 collision = true;
                                 break;
@@ -70,12 +52,12 @@ public class Destroyer {
                 for (int j = -1; j < 5; j++) {
                     for (int i = -1; i < 2; i++) {
                         try {
-                            if (dsbrd[n1 + i][n2 + j] == 'X') {
-                                if (n1 < 9) {
-                                    n1++;
+                            if (dsbrd[dstr.getRow() + i][dstr.getColumn() + j] == 'X') {
+                                if (dstr.getRow() < 9) {
+                                    dstr.row++;
                                 } else {
-                                    n1 = 0;
-                                    n2++;
+                                    dstr.row = 0;
+                                    dstr.column++;
                                 }
                                 collision = true;
                                 break;
@@ -88,9 +70,11 @@ public class Destroyer {
 
         } while (collision);
         int[][] dstrLoc;
-        if (position.equals("vertical")) dstrLoc =
-                new int[][]{{n1, n2}, {n1 + 1, n2}, {n1 + 2, n2}, {n1 + 3, n2}};
-        else dstrLoc = new int[][] {{n1, n2}, {n1, n2+1}, {n1, n2+2}, {n1, n2+3}};
+        if (dstr.getPosition().equals("vertical")) dstrLoc =
+                new int[][]{{dstr.getRow(), dstr.getColumn()}, {dstr.getRow() + 1, dstr.getColumn()},
+                        {dstr.getRow() + 2, dstr.getColumn()}, {dstr.getRow() + 3, dstr.getColumn()}};
+        else dstrLoc = new int[][] {{dstr.getRow(), dstr.getColumn()}, {dstr.getRow(), dstr.getColumn()+1},
+                {dstr.getRow(), dstr.getColumn()+2}, {dstr.getRow(), dstr.getColumn()+3}};
         return dstrLoc;
     }
 
