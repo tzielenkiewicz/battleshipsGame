@@ -34,11 +34,11 @@ public class Destroyer {
                     for (int i = -1; i < 2; i++) {
                         try {
                             if (dsbrd[dstr.getRow() + j][dstr.getColumn() + i] == 'X') {
-                                if (dstr.getRow() < 7) {
-                                    dstr.row++;
-                                } else {
-                                    dstr.row = 0;
+                                if (dstr.getRow() < 9) {
                                     dstr.column++;
+                                } else {
+                                    dstr.column = 0;
+                                    dstr.row++;
                                 }
                                 collision = true;
                                 break;

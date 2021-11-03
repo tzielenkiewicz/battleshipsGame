@@ -225,6 +225,31 @@ public class BattleshipsTest {
         }
     }
 
+    @Test
+    public void canInputSecondDestroyer() {
+        Battleship btls = createBattleshipInRandomLocation();
+        char[][] dsbrd = Dashboard.createEmptyDashboard();
+        Battleship.inputBattleshipIntoDashboard(btls, dsbrd);
+        Destroyer dstr = createDestroyerInRandomLocation();
+        int[][] destroyerLocation = Destroyer.defineDestroyerLocation(dstr, dsbrd);
+        int valueX = destroyerLocation[0][0];
+        int valueY = destroyerLocation[0][1];
+        Destroyer.inputDestroyerIntoDashboard(new Destroyer(valueX, valueY, dstr.getPosition()), dsbrd);
+        Destroyer scndDstr = createDestroyerInRandomLocation();
+        int[][] destroyerLocation2 = Destroyer.defineDestroyerLocation(scndDstr, dsbrd);
+        int valueX2 = destroyerLocation2[0][0];
+        int valueY2 = destroyerLocation2[0][1];
+        Destroyer.inputDestroyerIntoDashboard(
+                new Destroyer(valueX2, valueY2, scndDstr.getPosition()), dsbrd);
+        for (int i = 0; i<4; i++) {
+            if (scndDstr.getPosition().equals("vertical"))
+                assertEquals(dsbrd[valueX2+i][valueY2], 'X');
+            else assertEquals(dsbrd[valueX2][valueY2+i], 'X');
+        }
+    }
+
+
+
     public Battleship createBattleshipInRandomLocation() {
         String position = Dashboard.generatePosition();
         Battleship btls = null;
