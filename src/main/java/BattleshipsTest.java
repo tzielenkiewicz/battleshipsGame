@@ -355,4 +355,29 @@ public class BattleshipsTest {
                 compDashboard.battleship.getRow(),compDashboard.battleship.getColumn());
         assertEquals(compDashboard.battleship.getStatus(), "hit");
     }
+
+    @Test
+    public void canChangeStatusToSunkAfterFire() {
+        Dashboard.GameDashboard compDashboard = new Dashboard.GameDashboard();
+        compDashboard.inputShips();
+        assertEquals(compDashboard.destroyer1.getStatus(), "sailing");
+        Fire.fireAtComputer(compDashboard,
+                compDashboard.destroyer1.bridge.getLocationX(),
+                compDashboard.destroyer1.bridge.getLocationY());
+        Fire.fireAtComputer(compDashboard,
+                compDashboard.destroyer1.gun.getLocationX(),
+                compDashboard.destroyer1.gun.getLocationY());
+        Fire.fireAtComputer(compDashboard,
+                compDashboard.destroyer1.chimney.getLocationX(),
+                compDashboard.destroyer1.chimney.getLocationY());
+        Fire.fireAtComputer(compDashboard,
+                compDashboard.destroyer1.radar.getLocationX(),
+                compDashboard.destroyer1.radar.getLocationY());
+        assertEquals(compDashboard.destroyer1.getStatus(), "sunk");
+    }
+
+    @Test
+    public void canDisplayFireReport() {
+
+    }
 }
