@@ -5,18 +5,39 @@ import java.util.Random;
 import static org.junit.Assert.assertEquals;
 
 public class Dashboard {
-    //int amount;
 
-    /*Dashboard(int amount) {
-        this.amount = amount;
-    }*/
+    public static class GameDashboard {
+        public char[][] dashboard;
+        public Battleship battleship;
+        public Destroyer destroyer1;
+        public Destroyer destroyer2;
+
+        public void inputShips() {
+            dashboard = Dashboard.createEmptyDashboard();
+            battleship = Battleship.createBattleshipInRandomLocation();
+            Battleship.inputBattleshipIntoDashboard(battleship, dashboard);
+            destroyer1 = Destroyer.createDestroyerInRandomLocation();
+            destroyer2 = Destroyer.createDestroyerInRandomLocation();
+            int[][] destroyer1Location = Destroyer.defineDestroyerLocation(destroyer1, dashboard);
+            destroyer1.row = destroyer1Location[0][0];
+            destroyer1.column = destroyer1Location[0][1];
+            int[][] destroyer2Location = Destroyer.defineDestroyerLocation(destroyer2, dashboard);
+            destroyer2.row = destroyer2Location[0][0];
+            destroyer2.column = destroyer2Location[0][1];
+            Destroyer.inputDestroyerIntoDashboard(destroyer1, dashboard);
+            Destroyer.inputDestroyerIntoDashboard(destroyer2, dashboard);
+        }
+    }
+
     public static char[][] createDashboard_10Size() {
         return new char[10][10];
     }
-    public static char[][] createDashboard_XSize(int amount) {
-        return new char[amount][amount];
-    }
 
+    public static char[][] createRandomGridDashboard(int number1, int number2) {
+        char[][] chosenGrid = createEmptyDashboard();
+        chosenGrid[number1][number2]='X';
+        return chosenGrid;
+    }
 
     public static char[][] createEmptyDashboard() {
         char[][] dbrdSpace = new char[10][10];
@@ -36,12 +57,6 @@ public class Dashboard {
         return battleship;
     }
 
-    public static char[][] createDashboardOfCharWith_XSize(int amount, char c) {
-        char[][] dbrdXB = new char[amount][amount];
-        pushCharIntoDashboard(dbrdXB, c);
-        return dbrdXB;
-    }
-
     private static void pushCharIntoDashboard(char[][] dbrd, char c) {
         for (int row = 0; row < 10; row++) {
             for (int col = 0; col < 10; col++) {
@@ -51,23 +66,21 @@ public class Dashboard {
     }
 
 
-    public static void displayDashboard(char[][] dashboard) {
+    public static void displayDashboard(GameDashboard dsbrd) {
         System.out.println("     A   B   C   D   E   F   G   H   I   J");
         System.out.println("   -----------------------------------------");
         for (int i=0; i<10; i++) {
-            System.out.println((i) + "  | " + dashboard[i][0] + " | " + dashboard[i][1] + " | " +
-                    dashboard[i][2] + " | " + dashboard[i][3] + " | " + dashboard[i][4] + " | " +
-                    dashboard[i][5] + " | " + dashboard[i][6] + " | " + dashboard[i][7] + " | " +
-                    dashboard[i][8] + " | " + dashboard[i][9] + " |");
+            System.out.println((i) + "  | " + dsbrd.dashboard[i][0] + " | " + dsbrd.dashboard[i][1] + " | " +
+                    dsbrd.dashboard[i][2] + " | " + dsbrd.dashboard[i][3] + " | " + dsbrd.dashboard[i][4] + " | " +
+                    dsbrd.dashboard[i][5] + " | " + dsbrd.dashboard[i][6] + " | " + dsbrd.dashboard[i][7] + " | " +
+                    dsbrd.dashboard[i][8] + " | " + dsbrd.dashboard[i][9] + " |");
             System.out.println("   -----------------------------------------");
+
         }
-
-    }
-
-    public static char[][] createRandomGridDashboard(int number1, int number2) {
-        char[][] chosenGrid = createEmptyDashboard();
-        chosenGrid[number1][number2]='X';
-        return chosenGrid;
+        System.out.println();
+        System.out.println("battleship status: " + dsbrd.battleship.status);
+        System.out.println("destroyer1 status: " + dsbrd.destroyer1.status);
+        System.out.println("destroyer2 status: " + dsbrd.destroyer2.status);
     }
 
     public static String generatePosition() {
@@ -78,3 +91,4 @@ public class Dashboard {
         return position;
     }
 }
+

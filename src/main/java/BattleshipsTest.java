@@ -1,6 +1,7 @@
 import org.hemickman.Battleship;
 import org.hemickman.Dashboard;
 import org.hemickman.Destroyer;
+import org.hemickman.Fire;
 import org.testng.annotations.Test;
 
 import java.util.Random;
@@ -9,21 +10,35 @@ import static org.junit.Assert.*;
 
 public class BattleshipsTest {
     Random generator = new Random();
-    String position = Dashboard.generatePosition();
-    int number1 = Math.round(generator.nextInt(9));
-    int number2 = Math.round(generator.nextInt(5));
-    int number3 = Math.round(generator.nextInt(6));
+    int number1 = generator.nextInt(9);
+    int number2 = generator.nextInt(5);
+    int number3 = generator.nextInt(6);
+    int number4 = generator.nextInt(9);
+
+    public Battleship createBattleshipInRandomLocation() {
+        String position = Dashboard.generatePosition();
+        Battleship btls = null;
+        switch (position) {
+            case "horizontal" -> btls = new Battleship(number1, number2, position);
+            case "vertical" -> btls = new Battleship(number2, number1, position);
+        }
+        return btls;
+    }
+
+    public Destroyer createDestroyerInRandomLocation() {
+        String position = Dashboard.generatePosition();
+        Destroyer dstr = null;
+        switch (position) {
+            case "horizontal" -> dstr = new Destroyer(number1, number3, position);
+            case "vertical" -> dstr = new Destroyer(number3, number1, position);
+        }
+        return dstr;
+    }
 
     @Test
     public void canCreateDashboardWith_10Size() {
         char[][] ten = Dashboard.createDashboard_10Size();
         assertEquals(ten.length, 10);
-    }
-
-    @Test
-    public void canCreateDashboardWith_XSize() {
-        char[][] xSize = Dashboard.createDashboard_XSize(5);
-        assertEquals(xSize.length, 5);
     }
 
     @Test
@@ -42,16 +57,6 @@ public class BattleshipsTest {
         for (char[] chars : dbrdA) {
             for (int col = 0; col < dbrdA.length; col++) {
                 assertEquals(chars[col], 'A');
-            }
-        }
-    }
-
-    @Test
-    public void canCreateDashboardOfChosenCharWith_XSize() {
-        char[][] X_ChosenChar = Dashboard.createDashboardOfCharWith_XSize(10, 'B');
-        for (char[] chars : X_ChosenChar) {
-            for (int col = 0; col < X_ChosenChar.length; col++) {
-                assertEquals(chars[col], 'B');
             }
         }
     }
@@ -94,29 +99,6 @@ public class BattleshipsTest {
         assertEquals(HMSBtls.column, 5);
         assertEquals(HMSBtls.position, "vertical");
         assertEquals(HMSBtls.status, "sailing");
-    }
-
-    @Test
-    public void canChangeDestroyerStatus() {
-        Destroyer HMSDstr = new Destroyer(0, 0, "vertical");
-        assertEquals(HMSDstr.getStatus(), "sailing");
-        assertTrue(HMSDstr.isGun());
-        HMSDstr.gun = false;
-        HMSDstr.chimney = false;
-        HMSDstr.radar = false;
-        HMSDstr.bridge = false;
-        HMSDstr.changeStatus();
-        assertEquals(HMSDstr.getStatus(), "sunk");
-    }
-
-    @Test
-    public void canChangeBattleshipStatus() {
-        Battleship HMSBtls = new Battleship(0, 0, "horizontal");
-        assertEquals(HMSBtls.status, "sailing");
-        assertTrue(HMSBtls.isRocketLauncher());
-        HMSBtls.rocketLauncher = false;
-        HMSBtls.changeStatus();
-        assertEquals(HMSBtls.status, "hit");
     }
 
     @Test
@@ -248,25 +230,129 @@ public class BattleshipsTest {
         }
     }
 
-
-
-    public Battleship createBattleshipInRandomLocation() {
-        String position = Dashboard.generatePosition();
-        Battleship btls = null;
-        switch (position) {
-            case "horizontal" -> btls = new Battleship(number1, number2, position);
-            case "vertical" -> btls = new Battleship(number2, number1, position);
-        }
-        return btls;
+    @Test
+    public void canInputLocationIntoDestroyerShipParts() {
+        Destroyer dstr = new Destroyer(0, 0, "vertical");
+        char[][] dsbrd = Dashboard.createEmptyDashboard();
+        Destroyer.inputDestroyerIntoDashboard(dstr, dsbrd);
+        assertEquals(dstr.bridge.getLocationX(), 0);
+        assertEquals(dstr.gun.getLocationX(), 1);
+        assertEquals(dstr.chimney.getLocationX(), 2);
+        assertEquals(dstr.radar.getLocationX(), 3);
     }
 
-    public Destroyer createDestroyerInRandomLocation() {
-        String position = Dashboard.generatePosition();
-        Destroyer dstr = null;
-        switch (position) {
-            case "horizontal" -> dstr = new Destroyer(number1, number3, position);
-            case "vertical" -> dstr = new Destroyer(number3, number1, position);
-        }
-        return dstr;
+    @Test
+    public void canInputLocationIntoBattleshipShipParts() {
+        Battleship btls = new Battleship(0, 0, "horizontal");
+        char[][] dsbrd = Dashboard.createEmptyDashboard();
+        Battleship.inputBattleshipIntoDashboard(btls, dsbrd);
+        assertEquals(btls.bridge.getLocationY(), 0);
+        assertEquals(btls.gun.getLocationY(), 1);
+        assertEquals(btls.chimney.getLocationY(), 2);
+        assertEquals(btls.radar.getLocationY(), 3);
+        assertEquals(btls.rocketLauncher.getLocationY(), 4);
+    }
+
+    @Test
+    public void canCreateDashboardWithThreeShips() {
+            Battleship btls = createBattleshipInRandomLocation();
+            char[][] dsbrd = Dashboard.createEmptyDashboard();
+            Battleship.inputBattleshipIntoDashboard(btls, dsbrd);
+            Destroyer dstr = createDestroyerInRandomLocation();
+            int[][] destroyerLocation = Destroyer.defineDestroyerLocation(dstr, dsbrd);
+            int valueX = destroyerLocation[0][0];
+            int valueY = destroyerLocation[0][1];
+            Destroyer.inputDestroyerIntoDashboard(new Destroyer(valueX, valueY, dstr.getPosition()), dsbrd);
+            Destroyer scndDstr = createDestroyerInRandomLocation();
+            int[][] destroyerLocation2 = Destroyer.defineDestroyerLocation(scndDstr, dsbrd);
+            int valueX2 = destroyerLocation2[0][0];
+            int valueY2 = destroyerLocation2[0][1];
+            Destroyer.inputDestroyerIntoDashboard(
+                    new Destroyer(valueX2, valueY2, scndDstr.getPosition()), dsbrd);
+            int numberOfX = 0;
+            for(char[] grids:dsbrd) {
+                for(char grid:grids) {
+                    if (grid == 'X') numberOfX++;
+                }
+            }
+            assertEquals(numberOfX, 13);
+    }
+
+    @Test
+    public void canDisplayCorrectDashboard () {
+        Dashboard.GameDashboard playerDashboard = new Dashboard.GameDashboard();
+        playerDashboard.inputShips();
+        assertEquals(playerDashboard.dashboard[playerDashboard.battleship.getRow()]
+                [playerDashboard.battleship.getColumn()], 'X');
+        assertEquals(playerDashboard.dashboard[playerDashboard.destroyer1.chimney.getLocationX()]
+                [playerDashboard.destroyer1.chimney.getLocationY()], 'X');
+        assertEquals(playerDashboard.dashboard[playerDashboard.destroyer2.radar.getLocationX()]
+                [playerDashboard.destroyer2.radar.getLocationY()], 'X');
+    }
+
+    @Test
+    public void canDisplayShipPartsStatus() {
+        Dashboard.GameDashboard playerDashboard = new Dashboard.GameDashboard();
+        playerDashboard.inputShips();
+        assertTrue(playerDashboard.battleship.bridge.active);
+        assertTrue(playerDashboard.destroyer1.gun.active);
+        assertTrue(playerDashboard.destroyer2.chimney.active);
+    }
+
+    @Test
+    public void canDisplayShipStatus() {
+        Dashboard.GameDashboard playerDashboard = new Dashboard.GameDashboard();
+        playerDashboard.inputShips();
+        assertEquals(playerDashboard.battleship.status, "sailing");
+        assertEquals(playerDashboard.destroyer1.status, "sailing");
+        assertEquals(playerDashboard.destroyer2.status, "sailing");
+    }
+
+    @Test
+    public void canFireAt00Location() {
+        Dashboard.GameDashboard dsbrd = new Dashboard.GameDashboard();
+        dsbrd.dashboard = Dashboard.createEmptyDashboard();
+        assertEquals(dsbrd.dashboard[0][0], ' ');
+        Fire.fireAtComputer(dsbrd, 0, 0);
+        assertEquals(dsbrd.dashboard[0][0], 'o');
+    }
+
+    @Test
+    public void canFireAt84Location() {
+        Dashboard.GameDashboard dsbrd = new Dashboard.GameDashboard();
+        dsbrd.dashboard = Dashboard.createEmptyDashboard();
+        assertEquals(dsbrd.dashboard[8][4], ' ');
+        Fire.fireAtComputer(dsbrd, 8, 4);
+        assertEquals(dsbrd.dashboard[8][4], 'o');
+    }
+
+    @Test
+    public void canFireRandomLocation() {
+        Dashboard.GameDashboard dsbrd = new Dashboard.GameDashboard();
+        dsbrd.dashboard = Dashboard.createEmptyDashboard();
+        assertEquals(dsbrd.dashboard[number1][number4], ' ');
+        Fire.fireAtComputer(dsbrd, number1, number4);
+        assertEquals(dsbrd.dashboard[number1][number4], 'o');
+    }
+
+    @Test
+    public void canChangeCharAfterFireAtShip() {
+        Dashboard.GameDashboard compDashboard = new Dashboard.GameDashboard();
+        compDashboard.inputShips();
+        assertEquals(compDashboard.dashboard[compDashboard.destroyer2.radar.getLocationX()]
+                    [compDashboard.destroyer2.radar.getLocationY()], 'X');
+        Fire.fireAtComputer(compDashboard, compDashboard.destroyer2.radar.getLocationX(),
+                compDashboard.destroyer2.radar.getLocationY());
+        assertEquals(compDashboard.dashboard[compDashboard.destroyer2.radar.getLocationX()]
+                [compDashboard.destroyer2.radar.getLocationY()], '*');
+    }
+    @Test
+    public void canChangeShipStatusAfterFireAtShip() {
+        Dashboard.GameDashboard compDashboard = new Dashboard.GameDashboard();
+        compDashboard.inputShips();
+        assertEquals(compDashboard.battleship.getStatus(), "sailing");
+        Fire.fireAtComputer(compDashboard,
+                compDashboard.battleship.getRow(),compDashboard.battleship.getColumn());
+        assertEquals(compDashboard.battleship.getStatus(), "hit");
     }
 }
