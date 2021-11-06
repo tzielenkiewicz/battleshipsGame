@@ -378,6 +378,33 @@ public class BattleshipsTest {
 
     @Test
     public void canDisplayFireReport() {
+        Dashboard.GameDashboard compDashboard = new Dashboard.GameDashboard();
+        assertEquals((Fire.fireAtComputer(compDashboard, 1, 1)), "You missed!");
+        compDashboard.inputShips();
+        assertEquals(Fire.fireAtComputer(compDashboard, compDashboard.destroyer1.getRow(),
+                compDashboard.destroyer1.getColumn()), "That's a hit!");
+    }
+
+    @Test
+    public void canDisplayFireReportAfterRandomFire() {
+        Dashboard.GameDashboard compDashboard = new Dashboard.GameDashboard();
+        compDashboard.inputShips();
+        String rep = Fire.fireAtComputer(compDashboard, 2, 0);
+        if (compDashboard.dashboard[2][0] == ' ') assertEquals(rep, "You missed!");
+        else if (compDashboard.dashboard[2][0] == 'X') assertEquals(rep, "That's a hit!");
+
+    }
+
+    @Test
+    public void canSwitchPlayer() {
+        String currentPlayer = "player";
+        currentPlayer = Fire.switchPlayer(currentPlayer);
+        assertEquals(currentPlayer, "computer");
+        assertEquals(Fire.switchPlayer(currentPlayer), "player");
+    }
+
+    @Test
+    public void canInputFireCoordinates() {
 
     }
 }

@@ -7,13 +7,12 @@ import static org.junit.Assert.assertEquals;
 public class Dashboard {
 
     public static class GameDashboard {
-        public char[][] dashboard;
+        public char[][] dashboard = Dashboard.createEmptyDashboard();
         public Battleship battleship;
         public Destroyer destroyer1;
         public Destroyer destroyer2;
 
         public void inputShips() {
-            dashboard = Dashboard.createEmptyDashboard();
             battleship = Battleship.createBattleshipInRandomLocation();
             Battleship.inputBattleshipIntoDashboard(battleship, dashboard);
             destroyer1 = Destroyer.createDestroyerInRandomLocation();
