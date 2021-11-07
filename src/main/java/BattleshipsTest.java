@@ -313,7 +313,7 @@ public class BattleshipsTest {
         Dashboard.GameDashboard dsbrd = new Dashboard.GameDashboard();
         dsbrd.dashboard = Dashboard.createEmptyDashboard();
         assertEquals(dsbrd.dashboard[0][0], ' ');
-        Fire.fireAtComputer(dsbrd, 0, 0);
+        assertEquals(Fire.fireAtComputer(dsbrd, 0, 0), "You've missed!");
         assertEquals(dsbrd.dashboard[0][0], 'o');
     }
 
@@ -322,7 +322,7 @@ public class BattleshipsTest {
         Dashboard.GameDashboard dsbrd = new Dashboard.GameDashboard();
         dsbrd.dashboard = Dashboard.createEmptyDashboard();
         assertEquals(dsbrd.dashboard[8][4], ' ');
-        Fire.fireAtComputer(dsbrd, 8, 4);
+        assertEquals(Fire.fireAtComputer(dsbrd, 8, 4), "You've missed!");
         assertEquals(dsbrd.dashboard[8][4], 'o');
     }
 
@@ -331,7 +331,7 @@ public class BattleshipsTest {
         Dashboard.GameDashboard dsbrd = new Dashboard.GameDashboard();
         dsbrd.dashboard = Dashboard.createEmptyDashboard();
         assertEquals(dsbrd.dashboard[number1][number4], ' ');
-        Fire.fireAtComputer(dsbrd, number1, number4);
+        assertEquals(Fire.fireAtComputer(dsbrd, number1, number4), "You've missed!");
         assertEquals(dsbrd.dashboard[number1][number4], 'o');
     }
 
@@ -379,7 +379,7 @@ public class BattleshipsTest {
     @Test
     public void canDisplayFireReport() {
         Dashboard.GameDashboard compDashboard = new Dashboard.GameDashboard();
-        assertEquals((Fire.fireAtComputer(compDashboard, 1, 1)), "You missed!");
+        assertEquals((Fire.fireAtComputer(compDashboard, 1, 1)), "You've missed!");
         compDashboard.inputShips();
         assertEquals(Fire.fireAtComputer(compDashboard, compDashboard.destroyer1.getRow(),
                 compDashboard.destroyer1.getColumn()), "That's a hit!");
@@ -404,7 +404,33 @@ public class BattleshipsTest {
     }
 
     @Test
-    public void canInputFireCoordinates() {
+    public void canCheckWinner() {
+        Dashboard.GameDashboard compDashboard = new Dashboard.GameDashboard();
+        compDashboard.inputShips();
+        assertFalse(Fire.checkWinner(compDashboard));
+        compDashboard.battleship.status = "sunk";
+        compDashboard.destroyer1.status = "sunk";
+        compDashboard.destroyer2.status = "sunk";
+        assertTrue(Fire.checkWinner(compDashboard));
+    }
 
+    @Test
+    public void canInputFireCoordinates() {
+        Dashboard.GameDashboard compDashboard = new Dashboard.GameDashboard();
+        compDashboard.inputShips();
+        int[] coord = Fire.setFireCoordinates(number4, "G");
+        if (compDashboard.dashboard[coord[0]][coord[1]] == ' ')
+            assertEquals(Fire.fireAtComputer(compDashboard, coord[0], coord[1]), "You've missed!");
+        else if (compDashboard.dashboard[coord[0]][coord[1]] == 'X')
+            assertEquals(Fire.fireAtComputer(compDashboard, coord[0], coord[1]), "That's a hit!");
+    }
+    @Test
+    public void canFireRandomAtPlayer() {
+        Dashboard.GameDashboard dsbrd = new Dashboard.GameDashboard();
+        dsbrd.dashboard = Dashboard.createEmptyDashboard();
+        assertEquals(Fire.fireAtPlayer(dsbrd),"You've missed!");
+        dsbrd.inputShips();
+        Dashboard.pushCharIntoDashboard(dsbrd.dashboard, 'X');
+        assertEquals(Fire.fireAtPlayer(dsbrd), "That's a hit!");
     }
 }
