@@ -1,7 +1,5 @@
 package org.hemickman;
 
-import java.util.Random;
-
 public class Fire {
     public static String fireAtComputer(Dashboard.GameDashboard dsbrd, int row, int column) {
         String report = null;
@@ -20,14 +18,14 @@ public class Fire {
     }
 
     public static String switchPlayer(String current) {
-        if (!current.equals("player")) current = "player";
+        if (current.equals("computer")) current = "player";
         else current = "computer";
         return current;
     }
 
     public static int[] setFireCoordinates(int row, String col) {
         int[] coord = new int[2];
-        coord[0] = row;
+        coord[0] = row-1;
         switch(col) {
             case "A" -> coord[1] = 0;
             case "B" -> coord[1] = 1;
@@ -48,22 +46,25 @@ public class Fire {
                 dsbrd.destroyer2.status.equals("sunk");
     }
 
-    public static String fireAtPlayer(Dashboard.GameDashboard dsbrd) {
-        Random rnd = new Random();
-        int x = rnd.nextInt(9);
-        int y = rnd.nextInt(9);
+    public static String fireAtPlayer(Dashboard.GameDashboard dsbrd, int x, int y) {
+        boolean tryAgain;
         String report = null;
-        if (dsbrd.dashboard[x][y] == ' ') {
-            dsbrd.dashboard[x][y] = 'o';
-            report = "You've missed!";
-        }
-        else if (dsbrd.dashboard[x][y] == 'X') {
-            dsbrd.dashboard[x][y] = '*';
-            dsbrd.battleship.changeStatus(x, y);
-            dsbrd.destroyer1.changeStatus(x, y);
-            dsbrd.destroyer2.changeStatus(x, y);
-            report = "That's a hit!";
-        }
+        do {
+            tryAgain = false;
+
+            if (dsbrd.dashboard[x][y] == ' ') {
+                dsbrd.dashboard[x][y] = 'o';
+                report = "Missed!";
+            } else if (dsbrd.dashboard[x][y] == 'X') {
+                dsbrd.dashboard[x][y] = '*';
+                dsbrd.battleship.changeStatus(x, y);
+                dsbrd.destroyer1.changeStatus(x, y);
+                dsbrd.destroyer2.changeStatus(x, y);
+                report = "That's a hit!";
+            }
+            else if (dsbrd.dashboard[x][y] == 'o'
+                    || dsbrd.dashboard[x][y] == '*') tryAgain = true;
+        } while (tryAgain);
         return report;
     }
 }
