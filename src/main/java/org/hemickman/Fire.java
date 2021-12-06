@@ -49,22 +49,20 @@ public class Fire {
     public static String fireAtPlayer(Dashboard.GameDashboard dsbrd, int x, int y) {
         boolean tryAgain;
         String report = null;
-        do {
-            tryAgain = false;
 
-            if (dsbrd.dashboard[x][y] == ' ') {
-                dsbrd.dashboard[x][y] = 'o';
-                report = "Missed!";
-            } else if (dsbrd.dashboard[x][y] == 'X') {
-                dsbrd.dashboard[x][y] = '*';
-                dsbrd.battleship.changeStatus(x, y);
-                dsbrd.destroyer1.changeStatus(x, y);
-                dsbrd.destroyer2.changeStatus(x, y);
-                report = "That's a hit!";
-            }
-            else if (dsbrd.dashboard[x][y] == 'o'
-                    || dsbrd.dashboard[x][y] == '*') tryAgain = true;
-        } while (tryAgain);
+        if (dsbrd.dashboard[x][y] == ' ') {
+           dsbrd.dashboard[x][y] = 'o';
+           report = "Missed!";
+        } else if (dsbrd.dashboard[x][y] == 'X') {
+            dsbrd.dashboard[x][y] = '*';
+            dsbrd.battleship.changeStatus(x, y);
+            dsbrd.destroyer1.changeStatus(x, y);
+            dsbrd.destroyer2.changeStatus(x, y);
+            report = "That's a hit!";
+        }
+        else if (dsbrd.dashboard[x][y] == 'o'
+                || dsbrd.dashboard[x][y] == '*') report = "again";
+
         return report;
     }
 }

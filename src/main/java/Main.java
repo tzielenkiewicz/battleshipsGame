@@ -90,29 +90,7 @@ public class Main {
                 } else {
                     Random rnd = new Random();
                     int x = 0, y = 0;
-                    if (count == 0 && direction == 'd') {
-                        x = rnd.nextInt(9);
-                        y = rnd.nextInt(9);
-                    }
-                    else if (count > 0 && direction =='d' && tempX < (10-count)) {
-                        x = tempX + count;
-                        y = tempY;
-                    }
-
-                    else if (direction == 'u' && tempX >= count) {
-                        x = tempX - count;
-                        y = tempY;
-                    }
-
-                    else if (direction == 'r' && tempY < (10-count)) {
-                        x = tempX;
-                        y = tempY + count;
-                    }
-
-                    else if (direction == 'l' && tempY >= count) {
-                        x = tempX;
-                        y = tempY - count;
-                    }
+                    String report = "again";
 
                     System.out.println();
                     System.out.println("Now computer is going to attack your ships!");
@@ -122,7 +100,53 @@ public class Main {
                     String statusD2before = playerDashboard.destroyer2.getStatus();
                     String statusBbefore = playerDashboard.battleship.getStatus();
 
-                    String report = Fire.fireAtPlayer(playerDashboard, x, y);
+                    if (count > 0 && direction == 'd' && (tempX == (10-count) ||
+                            playerDashboard.dashboard[tempX+count][tempY] == 'o')) {
+                        direction = 'u';
+                        count = 1;
+                    }
+                    if (count > 0 && direction =='d' && tempX < (10-count)) {
+                        x = tempX + count;
+                        y = tempY;
+                        report = Fire.fireAtPlayer(playerDashboard, x, y);
+                    }
+                    if (direction == 'u' && (tempX == (count-1) ||
+                            playerDashboard.dashboard[tempX-count][tempY] == 'o')) {
+                        direction = 'r';
+                        count = 1;
+                    }
+                    if (direction == 'u' && tempX >= count) {
+                        x = tempX - count;
+                        y = tempY;
+                        report = Fire.fireAtPlayer(playerDashboard, x, y);
+                    }
+                    if (direction == 'r' && (tempY == (10-count) ||
+                            playerDashboard.dashboard[tempX][tempY+count] == 'o')) {
+                        direction = 'l';
+                        count = 1;
+                    }
+                    if (direction == 'r' && tempY < (10-count)) {
+                        x = tempX;
+                        y = tempY + count;
+                        report = Fire.fireAtPlayer(playerDashboard, x, y);
+                    }
+                    if (direction == 'l' && (tempY == (count-1) ||
+                            playerDashboard.dashboard[tempX][tempY-count] == 'o')) {
+                        direction = 'd';
+                        count = 0;
+                    }
+                    if (direction == 'l' && tempY >= count) {
+                        x = tempX;
+                        y = tempY - count;
+                        report = Fire.fireAtPlayer(playerDashboard, x, y);
+                    }
+                    else /*(count == 0 && direction == 'd')*/ {
+                        while (report.equals("again")) {
+                            x = rnd.nextInt(10);
+                            y = rnd.nextInt(10);
+                            report = Fire.fireAtPlayer(playerDashboard, x, y);
+                        }
+                    }
 
                     String statusD1after = playerDashboard.destroyer1.getStatus();
                     String statusD2after = playerDashboard.destroyer2.getStatus();
