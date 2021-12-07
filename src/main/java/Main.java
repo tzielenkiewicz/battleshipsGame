@@ -31,6 +31,10 @@ public class Main {
             playerDashboard.inputShips();
             Dashboard.GameDashboard compDashboard = new Dashboard.GameDashboard();
             compDashboard.inputShips();
+            Dashboard.GameDashboard temporaryDashboard = new Dashboard.GameDashboard();
+            temporaryDashboard.battleship = compDashboard.battleship;
+            temporaryDashboard.destroyer1 = compDashboard.destroyer1;
+            temporaryDashboard.destroyer2 = compDashboard.destroyer2;
             currentPlayer = "computer";
             Dashboard.displayDashboard(playerDashboard);
 
@@ -84,9 +88,18 @@ public class Main {
                     System.out.println(report);
                     delay(1000);
                     System.out.println();
-                    Dashboard.displayDashboard(compDashboard);
-                    if (report.equals("That's a hit!"))
+                    if (report.equals("That's a hit!")) {
                         currentPlayer = Fire.switchPlayer(currentPlayer);
+                        temporaryDashboard.dashboard[fireCoordinates[0]][fireCoordinates[1]] = '*';
+                    }
+                    else if (report.equals("You've missed!"))
+                        temporaryDashboard.dashboard[fireCoordinates[0]][fireCoordinates[1]] = 'o';
+
+                    temporaryDashboard.battleship.status = compDashboard.battleship.getStatus();
+                    temporaryDashboard.destroyer1.status = compDashboard.destroyer1.getStatus();
+                    temporaryDashboard.destroyer2.status = compDashboard.destroyer2.getStatus();
+                    Dashboard.displayDashboard(temporaryDashboard);
+
                 } else {
                     Random rnd = new Random();
                     int x = 0, y = 0;
@@ -140,7 +153,7 @@ public class Main {
                         y = tempY - count;
                         report = Fire.fireAtPlayer(playerDashboard, x, y);
                     }
-                    else /*(count == 0 && direction == 'd')*/ {
+                    else {
                         while (report.equals("again")) {
                             x = rnd.nextInt(10);
                             y = rnd.nextInt(10);
